@@ -1,3 +1,3 @@
-# OpenGL Test Project
+# OpenGL Boiler plate Project
 
-This is an OpenGL scatfold test project that uses the glfw and the glad libraries.
+This is an OpenGL scatfold test project that uses the glfw, GLEW, configured to use make for building on Windows using the MinGW compiler.
