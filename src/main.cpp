@@ -5,8 +5,8 @@
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
-void showFPS(GLFWwindow* window);
-const char* APP_TITLE = "My first OpenGL Triangle";
+void showFPS(GLFWwindow *window);
+const char *APP_TITLE = "My first OpenGL Triangle";
 GLFWwindow *window;
 
 // settings
@@ -32,7 +32,6 @@ const char *fragmentShaderSource = "#version 330 core\n"
                                    "   FragColor = vec4(1.0, 1.0, 0.0 ,1.0);\n"
                                    "}\n\0";
 
-
 bool init()
 {
     // glfw: initialize and configure
@@ -54,13 +53,13 @@ bool init()
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-	// Initialize GLEW
-	glewExperimental = GL_TRUE;
-	if (glewInit() != GLEW_OK)
-	{
-		std::cerr << "Failed to initialize GLEW" << std::endl;
-		return false;
-	}
+    // Initialize GLEW
+    glewExperimental = GL_TRUE;
+    if (glewInit() != GLEW_OK)
+    {
+        std::cerr << "Failed to initialize GLEW" << std::endl;
+        return false;
+    }
 
     // build and compile our shader program
     // ------------------------------------
@@ -107,34 +106,34 @@ bool init()
     }
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
-    
+
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     float vertices[] = {
-        -1.0f, -1.0f, 0.0f,  0.0f, 1.0f, 0.0f, //left
-        0.0f,  0.0f, 0.0f,    1.0f, 0.0f, 0.0f, //top
-        1.0f, -1.0f, 0.0f,    0.0f, 0.0f, 1.0f//right 
+        -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // left
+        0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,   // top
+        1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f   // right
     };
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
 
-    //Triangle 1
+    // Triangle 1
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *) (3 * sizeof(GLfloat)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
 
-    //Cleaning up
+    // Cleaning up
     glBindBuffer(GL_ARRAY_BUFFER, NULL);
     glBindVertexArray(NULL);
 
     // uncomment this call to draw in wireframe polygons.
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 void render()
@@ -173,6 +172,12 @@ void render()
 int main()
 {
     init();
+
+    // Print OpenGL Implementation details
+    std::cout << "GL_VENDOR: " << glGetString(GL_VENDOR) << std::endl;
+    std::cout << "GL_RENDERER: " << glGetString(GL_RENDERER) << std::endl;
+    std::cout << "GL_VERSION: " << glGetString(GL_VERSION) << std::endl;
+
     render();
     return 0;
 }
@@ -198,34 +203,34 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 // Code computes the average frames per second, and also the average time it takes
 // to render one frame.  These stats are appended to the window caption bar.
 //-----------------------------------------------------------------------------
-void showFPS(GLFWwindow* window)
+void showFPS(GLFWwindow *window)
 {
-	static double previousSeconds = 0.0;
-	static int frameCount = 0;
-	double elapsedSeconds;
-	double currentSeconds = glfwGetTime(); // returns number of seconds since GLFW started, as double float
+    static double previousSeconds = 0.0;
+    static int frameCount = 0;
+    double elapsedSeconds;
+    double currentSeconds = glfwGetTime(); // returns number of seconds since GLFW started, as double float
 
-	elapsedSeconds = currentSeconds - previousSeconds;
+    elapsedSeconds = currentSeconds - previousSeconds;
 
-	// Limit text updates to 4 times per second
-	if (elapsedSeconds > 0.25)
-	{
-		previousSeconds = currentSeconds;
-		double fps = (double)frameCount / elapsedSeconds;
-		double msPerFrame = 1000.0 / fps;
+    // Limit text updates to 4 times per second
+    if (elapsedSeconds > 0.25)
+    {
+        previousSeconds = currentSeconds;
+        double fps = (double)frameCount / elapsedSeconds;
+        double msPerFrame = 1000.0 / fps;
 
-		// The C++ way of setting the window title
-		std::ostringstream outs;
-		outs.precision(3);	// decimal places
-		outs << std::fixed
-			<< APP_TITLE << "    "
-			<< "FPS: " << fps << "    "
-			<< "Frame Time: " << msPerFrame << " (ms)";
-		glfwSetWindowTitle(window, outs.str().c_str());
+        // The C++ way of setting the window title
+        std::ostringstream outs;
+        outs.precision(3); // decimal places
+        outs << std::fixed
+             << APP_TITLE << "    "
+             << "FPS: " << fps << "    "
+             << "Frame Time: " << msPerFrame << " (ms)";
+        glfwSetWindowTitle(window, outs.str().c_str());
 
-		// Reset for next average.
-		frameCount = 0;
-	}
+        // Reset for next average.
+        frameCount = 0;
+    }
 
-	frameCount++;
+    frameCount++;
 }
