@@ -6,7 +6,7 @@
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 void showFPS(GLFWwindow* window);
-const char* APP_TITLE = "Hola triangulo.";
+const char* APP_TITLE = "My first OpenGL Triangle";
 GLFWwindow *window;
 
 // settings
