@@ -3,6 +3,8 @@
 #include <sstream>
 #include <iostream>
 #include <stb_image/stb_image.h>
+#include <GLFW/glfw3.h>
+#include <vector>
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
@@ -61,15 +63,45 @@ bool loadImage(const char *path, unsigned int &reference, bool transparent = fal
     return true;
 }
 
-bool loadTextures()
+bool loadImages(const char *path)
 {
+    bool awesomeActive = path == "textures/awesomeface.png";
     bool success;
-    success = loadImage("textures/wall.jpg", texture1);
-    success = loadImage("textures/awesomeface.png", texture2, true, true);
+    if(awesomeActive){
+        success = loadImage(path, texture1, true, true);
+    } else {
+        success = loadImage(path, texture1);
+    }
+
+    std::cout << "Loading images..." << path << std::endl;
     glUseProgram(shaderProgram);
     glUniform1i(glGetUniformLocation(shaderProgram, "texture1"), 0);
-    glUniform1i(glGetUniformLocation(shaderProgram, "texture2"), 1);
     return success;
+}
+bool loadTextures()
+{
+    return loadImages("textures/awesomeface.png");
+}
+
+
+void changeTexture(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    static int position = 0;
+    const char *paths[] = {
+        "textures/awesomeface.png",
+        "textures/container.jpg",
+        "textures/wall.jpg"
+    };
+
+    if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS ) {
+        position++;
+        position = position > 2 ? 0 : position;
+        loadImages(paths[position]);
+    } else if (key == GLFW_KEY_LEFT && action == GLFW_PRESS){
+        position--;
+        position = position < 0 ? 2 : position;
+        loadImages(paths[position]);
+    }
 }
 
 bool init()
@@ -190,6 +222,7 @@ bool init()
 
     // uncomment this call to draw in wireframe polygons.
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glfwSetKeyCallback(window, changeTexture);
     loadTextures();
     return true;
 }
