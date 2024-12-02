@@ -7,9 +7,12 @@ LIBS = -L. \
 
 INCLUDES = -I./includes
 
-SRC = src/main.cpp
+SRC = src/stb_image.cpp \
+	  src/main.cpp
+	  
 
-OBJ = main.o
+OBJ = stb_image.o \
+	  main.o 
 
 WARNINGS=-w
 
