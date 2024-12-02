@@ -7,9 +7,13 @@ LIBS = -L. \
 
 INCLUDES = -I./includes
 
-SRC = src/main.cpp
+SRC = src/ShaderProgram.cpp \
+	  src/Texture2D.cpp \
+	  src/main.cpp
 
-OBJ = main.o
+OBJ = ShaderProgram.o \
+	  Texture2D.o \
+	  main.o
 
 WARNINGS=-w
 
