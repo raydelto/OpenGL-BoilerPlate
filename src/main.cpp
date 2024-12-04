@@ -98,7 +98,7 @@ int main()
 	};
 
 	// Cube position
-	glm::vec3 cubePos = glm::vec3(0.0f, 0.0f, -5.0f);
+	glm::vec3 cubePos = glm::vec3(0.0f, 0.0f, -10.0f);
 
 	// 2. Set up buffers on the GPU
 	GLuint vbo, vao;
@@ -118,7 +118,7 @@ int main()
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(1);
 
-	glBindVertexArray(0);					// unbind to make sure other code doesn't change it
+	glBindVertexArray(NULL);					// unbind to make sure other code doesn't change it
 
 	ShaderProgram shaderProgram;
 	shaderProgram.loadShaders("shaders/basic.vert", "shaders/basic.frag");
@@ -132,7 +132,7 @@ int main()
 	// Create the projection matrix
 	glm::mat4 model;
 	glm::mat4 view;
-	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)gWindowWidth / (float)gWindowHeight, 0.1f, 100.0f);
+	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)gWindowWidth / (float)gWindowHeight, 0.1f, 50.0f);
 
 	// Rendering loop
 	while (!glfwWindowShouldClose(gWindow))
@@ -148,7 +148,7 @@ int main()
 		// Clear the screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		texture.bind(0);
+		texture.bind(NULL);
 
 		
 		model = glm::mat4(1.0f);
@@ -177,7 +177,7 @@ int main()
 
 		glBindVertexArray(vao);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
-		glBindVertexArray(0);
+		glBindVertexArray(NULL);
 
 		// Swap front and back buffers
 		glfwSwapBuffers(gWindow);

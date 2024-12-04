@@ -36,32 +36,14 @@ bool Texture2D::loadTexture(const string& fileName, bool generateMipMaps)
 	int width, height, components;
 
 	// Use stbi image library to load our image
+	stbi_set_flip_vertically_on_load(true);
 	unsigned char* imageData = stbi_load(fileName.c_str(), &width, &height, &components, STBI_rgb_alpha);
+	
 
 	if (imageData == NULL)
 	{
 		std::cerr << "Error loading texture '" << fileName << "'" << std::endl;
 		return false;
-	}
-
-	// Invert image
-	int widthInBytes = width * 4;
-	unsigned char *top = NULL;
-	unsigned char *bottom = NULL;
-	unsigned char temp = 0;
-	int halfHeight = height / 2;
-	for (int row = 0; row < halfHeight; row++)
-	{
-		top = imageData + row * widthInBytes;
-		bottom = imageData + (height - row - 1) * widthInBytes;
-		for (int col = 0; col < widthInBytes; col++)
-		{ 
-			temp = *top;
-			*top = *bottom;
-			*bottom = temp;
-			top++;
-			bottom++;
-		}
 	}
 
 	glGenTextures(1, &mTexture);
@@ -85,7 +67,7 @@ bool Texture2D::loadTexture(const string& fileName, bool generateMipMaps)
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 	stbi_image_free(imageData);
-	glBindTexture(GL_TEXTURE_2D, 0); // unbind texture when done so we don't accidentally mess up our mTexture
+	glBindTexture(GL_TEXTURE_2D, NULL); // unbind texture when done so we don't accidentally mess up our mTexture
 
 	return true;
 }
