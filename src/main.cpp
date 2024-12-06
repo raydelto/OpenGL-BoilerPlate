@@ -1,4 +1,12 @@
-#include "GL/glew.h"
+#ifdef __APPLE__
+#include <glad/glad.h>
+#endif
+
+#if defined(WIN32) || defined(__linux__)
+#define GLEW_STATIC
+#include "GL/glew.h"	// Important - this header must come before glfw3 header
+#endif
+
 #include <GLFW/glfw3.h>
 #include <sstream>
 #include <iostream>
@@ -81,6 +89,10 @@ bool init()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+#ifdef __APPLE__
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
+
 
     // glfw window creation
     // --------------------
@@ -94,6 +106,17 @@ bool init()
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+#ifdef __APPLE__
+	// glad: load all OpenGL function pointers
+	// ---------------------------------------
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+		std::cout << "Failed to initialize GLAD" << std::endl;
+		return -1;
+	}
+#endif
+
+#if defined(WIN32) || defined(__linux__)
     // Initialize GLEW
     glewExperimental = GL_TRUE;
     if (glewInit() != GLEW_OK)
@@ -101,6 +124,9 @@ bool init()
         std::cerr << "Failed to initialize GLEW" << std::endl;
         return false;
     }
+#endif
+
+
 
     // build and compile our shader program
     // ------------------------------------
