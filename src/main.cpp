@@ -129,11 +129,12 @@ bool init()
     glEnableVertexAttribArray(1);
 
     // Cleaning up
-    glBindBuffer(GL_ARRAY_BUFFER, NULL);
-    glBindVertexArray(NULL);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 
     // uncomment this call to draw in wireframe polygons.
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    return true;
 }
 
 void render()

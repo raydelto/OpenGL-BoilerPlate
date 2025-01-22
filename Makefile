@@ -11,10 +11,13 @@ SRC = src/main.cpp
 
 OBJ = main.o
 
-WARNINGS=-w
+WARNINGS=-Wall
 
 FLAGS=-std=c++17
 
 all:
 	g++ -c $(SRC) $(INCLUDES) $(WARNINGS) $(FLAGS)
 	g++ $(OBJ) $(LIBS) $(INCLUDES) -o main.exe $(WARNINGS) $(FLAGS)
+
+clean:
+	del $(OBJ) main.*
