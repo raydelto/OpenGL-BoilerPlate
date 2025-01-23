@@ -1,6 +1,6 @@
 LIBS = -L. \
-	   -L./lib \
-      -lglew32\
+	   -LC:\msys64\mingw64\lib \
+	  -lglew32 \
 	  -lglfw3 \
 	  -lopengl32 \
 	  -lgdi32
